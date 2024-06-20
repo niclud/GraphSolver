@@ -32,7 +32,7 @@ export const siteConfig = {
     },
   ],
   links: {
-    github: "https://github.com/nextui-org/nextui",
-    docs: "https://nextui.org",
+    github: "https://github.com/niclud/GraphSolver",
+    docs: "/about",
   },
 };
