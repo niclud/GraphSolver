@@ -66,8 +66,8 @@ export default function DocsPage() {
         Algoritmos de Grafos: Dijkstra, Kruskal y Prim
       </h1>
 
-      {dataAlgoritmos.map((algoritmo) => {
-        return <AlgorithmCard data={algoritmo}></AlgorithmCard>;
+      {dataAlgoritmos.map((algoritmo, index) => {
+        return <AlgorithmCard data={algoritmo} key={index}></AlgorithmCard>;
       })}
     </div>
   );

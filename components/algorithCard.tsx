@@ -5,7 +5,7 @@ export default function AlgorithmCard({ data }: { data: AlgorithmData }) {
     <div className="p-5 flex gap-7 flex-col">
       <h2 className="text-5xl text-center font-bold">{data.nombre}</h2>
       <div className="w-full flex justify-center">
-        <img className="w-[500px]" src={data.imagen}></img>
+        <img className="w-[500px]" src={data.imagen} alt=""></img>
       </div>
       <div>
         <p className="text-2xl">
