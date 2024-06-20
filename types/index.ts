@@ -14,3 +14,10 @@ export type Person = {
   linkedin: string;
   github: string;
 };
+export type AlgorithmData = {
+  nombre: string;
+  descripcion: string;
+  imagen: string;
+  detalles: string[];
+  ejemplos: string[];
+};
