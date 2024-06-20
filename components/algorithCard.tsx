@@ -19,7 +19,7 @@ export default function AlgorithmCard({ data }: { data: AlgorithmData }) {
         </p>
         <ul className="list-disc ml-8">
           {data.detalles.map((detalle: any) => {
-            return <li>{detalle}</li>;
+            return <li key={detalle}>{detalle}</li>;
           })}
         </ul>
       </div>
@@ -29,7 +29,7 @@ export default function AlgorithmCard({ data }: { data: AlgorithmData }) {
         </p>
         <ul className="list-disc ml-8">
           {data.ejemplos.map((detalle: any) => {
-            return <li>{detalle}</li>;
+            return <li key={detalle}>{detalle}</li>;
           })}
         </ul>
       </div>
