@@ -23,7 +23,7 @@ export default function Home() {
       let newDot = `${dot.replace("}", "")}${contructNewDot(values, dot)}}`;
       setDot(newDot);
     },
-    [dot]
+    [dot],
   );
 
   const handleGraphType = (value: string) => {
@@ -47,7 +47,7 @@ export default function Home() {
       }
 
       console.log(newDot);
-      setDot(newDot); 
+      setDot(newDot);
     }
   };
 

@@ -5,9 +5,7 @@ export default function AboutLayout({
 }) {
   return (
     <section className="flex flex-col items-center ">
-      <div className="">
-        {children}
-      </div>
+      <div className="">{children}</div>
     </section>
   );
 }
