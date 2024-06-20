@@ -62,7 +62,7 @@ export const Form = (props: {handleSubmit: any}) => {
     }
 
     const getIsDisableButton = () => {
-        return !values.origen || !values.destino || (!values.peso && values.peso >= 0);
+        return !values.origen || !values.destino || !values.peso;
     }
 
   return (
