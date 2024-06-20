@@ -55,7 +55,7 @@ export default function RootLayout({
                 title="nextui.org homepage"
               >
                 <span className="text-default-600">Powered by</span>
-                <p className="text-primary">NextUI</p>
+                <p className="text-primary">Grupo X - Inv. Operativa - UTN FRVM - 2024</p>
               </Link>
             </footer>
           </div>
