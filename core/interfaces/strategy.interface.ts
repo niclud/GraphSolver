@@ -1,3 +1,3 @@
 export interface IStrategy {
-    execute(graph: string): string;
+    execute(graph: string, nodeStart?: number | string): string;
 }

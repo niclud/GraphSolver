@@ -8,14 +8,13 @@ export class PrimStrategyAlgorithm
 {
   execute(graphs: string): string {
     let g = this.dotToGraph(graphs);
-    console.log('Grafo:', g);
-    
-    let mst = graphlib.alg.prim(g, (e: graphlib.Edge) => 0);
+   
+    const weightFn = (e: graphlib.Edge) => g.edge(e);
+    let mst = graphlib.alg.prim(g, weightFn);
+
+    console.log(mst.edges()); 
     
     let dot = this.graphToDot(mst, g);
-
-    console.log('Árbol de Expansión Mínima (Prim):', mst);
-    console.log(JSON.stringify(mst, null, 2));
 
     return dot;
   }
