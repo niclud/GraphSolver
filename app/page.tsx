@@ -3,6 +3,8 @@ import { Form } from "@/components/form";
 import { GraphvizComponent } from "@/components/graphviz";
 import React, { useCallback } from "react";
 import { Select, SelectItem } from "@nextui-org/select";
+import { Resolver } from "@/core/Resolver";
+import { PrimStrategyAlgorithm } from "@/core/PrimStrategyAlgorithm";
 
 export type SelectOption = {
   label: string;
@@ -22,6 +24,11 @@ export default function Home() {
     (values: any) => {
       let newDot = `${dot.replace("}", "")}${contructNewDot(values, dot)}}`;
       setDot(newDot);
+      console.log('added edge')
+      let resolver: Resolver = new Resolver();
+      let primAlgorithm: PrimStrategyAlgorithm = new PrimStrategyAlgorithm();
+      resolver.setStrategy(primAlgorithm);
+      console.log(resolver.resolve(newDot));
     },
     [dot],
   );
@@ -46,7 +53,6 @@ export default function Home() {
         newDot = newDot.replace(/->/g, "--");
       }
 
-      console.log(newDot);
       setDot(newDot);
     }
   };
