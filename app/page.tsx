@@ -3,6 +3,11 @@ import { Form } from "@/components/form";
 import { GraphvizComponent } from "@/components/graphviz";
 import React, { useCallback } from "react";
 import { Select, SelectItem } from "@nextui-org/select";
+import { Resolver } from "@/core/Resolver";
+import { PrimStrategyAlgorithm } from "@/core/PrimStrategyAlgorithm";
+import { Button, ButtonGroup } from "@nextui-org/button";
+import { DijkstraStrategyAlgorithm } from "@/core/DijkstraStrategyAlgorithm";
+import { KruskalStrategyAlgorithm } from "@/core/KruskalStrategyAlgorithm";
 
 export type SelectOption = {
   label: string;
@@ -16,6 +21,8 @@ const options: SelectOption[] = [
 
 export default function Home() {
   const [dot, setDot] = React.useState<string>("graph{rankdir=LR;}");
+  const [dotResolver, setDotResolver] =
+    React.useState<string>("graph{rankdir=LR;}");
   const [graphType, setGraphType] = React.useState<string>("graph");
 
   const onClickAddedGraph = useCallback(
@@ -23,7 +30,7 @@ export default function Home() {
       let newDot = `${dot.replace("}", "")}${contructNewDot(values, dot)}}`;
       setDot(newDot);
     },
-    [dot],
+    [dot]
   );
 
   const handleGraphType = (value: string) => {
@@ -46,7 +53,6 @@ export default function Home() {
         newDot = newDot.replace(/->/g, "--");
       }
 
-      console.log(newDot);
       setDot(newDot);
     }
   };
@@ -78,8 +84,58 @@ export default function Home() {
         <Form handleSubmit={onClickAddedGraph} />
       </div>
 
-      <div className="w-full h-full border items-center justify-center grid place-content-center rounded-e-lg bg-white">
+      <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
         <GraphvizComponent dot={dot}></GraphvizComponent>
+      </div>
+
+      <div className="grid grid-flow-col max-w-lg text-center justify-center gap-5">
+        {graphType === "graph" ? (
+          <>
+            <Button
+              className="btn btn-primary"
+              onClick={() => {
+                let resolver: Resolver = new Resolver();
+                let primAlgorithm: PrimStrategyAlgorithm =
+                  new PrimStrategyAlgorithm();
+                resolver.setStrategy(primAlgorithm);
+                let dotResolverByPrim = resolver.resolve(dot);
+                setDotResolver(dotResolverByPrim);
+              }}
+            >
+              Resolver por Prim
+            </Button>
+            <Button
+              className="btn btn-primary"
+              onClick={() => {
+                let resolver: Resolver = new Resolver();
+                let kruskalStrategyAlgorithm: KruskalStrategyAlgorithm = new KruskalStrategyAlgorithm();
+                resolver.setStrategy(kruskalStrategyAlgorithm);
+                let dotResolverByPrim = resolver.resolve(dot);
+                setDotResolver(dotResolverByPrim);
+              }}
+            >
+              Resolver por Kruskal
+            </Button>
+          </>
+        ) : (
+          <Button
+            className="btn btn-primary"
+            disabled={true}
+            onClick={() => {
+              let resolver: Resolver = new Resolver();
+              let djikstraAlgorithm: DijkstraStrategyAlgorithm =
+                new DijkstraStrategyAlgorithm();
+              resolver.setStrategy(djikstraAlgorithm);
+              let dotResolverByDijkstra = resolver.resolve(dot, 1);
+              setDotResolver(dotResolverByDijkstra);
+            }}
+          >
+            Resolver por Dijkstra
+          </Button>
+        )}
+      </div>
+      <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
+        <GraphvizComponent dot={dotResolver}></GraphvizComponent>
       </div>
     </section>
   );

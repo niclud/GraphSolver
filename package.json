@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
+    "@dagrejs/graphlib": "^2.2.2",
     "@nextui-org/button": "2.0.34",
     "@nextui-org/card": "^2.0.31",
     "@nextui-org/code": "2.0.29",
@@ -44,6 +45,7 @@
     "framer-motion": "~11.1.1",
     "graphviz-react": "^1.2.5",
     "intl-messageformat": "^10.5.0",
+    "js-graph-algorithms": "^1.0.18",
     "next": "14.2.3",
     "next-themes": "^0.2.1",
     "postcss": "8.4.38",
