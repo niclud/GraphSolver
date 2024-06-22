@@ -3,6 +3,7 @@
 import { Input } from "@nextui-org/input";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import React from "react";
+import { Select, SelectItem } from "@nextui-org/select";
 
 export type InputType = {
   label: string;
@@ -36,7 +37,7 @@ let inputs: InputType[] = [
     name: "peso",
   },
 ];
-export const Form = (props: { handleSubmit: any }) => {
+export const Form = (props: { handleSubmit: any, options: any, handleGraphType: any }) => {
   const getNameAndValueInit = () => {
     return {
       origen: "",
@@ -64,22 +65,41 @@ export const Form = (props: { handleSubmit: any }) => {
   };
 
   return (
-    <form className="grid grid-flow-col gap-5">
-      {inputs.map((input) => (
-        <Input
-          key={input.name}
-          size="md"
-          color="secondary"
-          variant="bordered"
+    <form className="flex flex-col sm:flex-row w-full justify-center items-center flex-wrap gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-4">
+        <Select
+          label="Tipo de grafo"
+          placeholder="Select an option"
+          className="w-full"
           isRequired
-          label={input.label}
-          type={input.type}
-          placeholder={input.placeholder}
-          name={input.name}
-          value={String(values[input.name])}
-          onChange={handleChange}
-        />
-      ))}
+          // value={graphType}
+          onChange={(e) => {
+            props.handleGraphType(e.target.value);
+            console.log(e.target.value);
+          }}
+        >
+          {props.options.map((op: any) => (
+            <SelectItem key={op.key}>{op.label}</SelectItem>
+          ))}
+        </Select>
+        {inputs.map((input) => (
+          <Input
+            key={input.name}
+            size="md"
+            color="secondary"
+            variant="bordered"
+            isRequired
+            label={input.label}
+            type={input.type}
+            placeholder={input.placeholder}
+            name={input.name}
+            value={String(values[input.name])}
+            onChange={handleChange}
+            className="w-full"
+          />
+        ))}
+
+      </div>
 
       <Button
         onClick={() => props.handleSubmit(values)}

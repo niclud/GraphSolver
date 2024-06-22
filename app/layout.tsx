@@ -47,14 +47,15 @@ export default function RootLayout({
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
             </main>
-            <footer className="w-full flex items-center justify-center py-3">
+            <footer className="w-full flex flex-wrap h-max items-center justify-center py-3 gap-2">
+            <p className="text-default-600">Powered by</p>
               <Link
                 isExternal
                 className="flex items-center gap-1 text-current"
                 href="https://github.com/niclud/GraphSolver"
                 title=""
               >
-                <span className="text-default-600">Powered by</span>
+
                 <p className="text-primary">
                   Grupo X - Inv. Operativa - UTN FRVM - 2024
                 </p>

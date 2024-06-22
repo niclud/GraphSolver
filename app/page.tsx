@@ -63,25 +63,12 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-lg text-center justify-center w-full">
-        <Select
-          label="Seleccionar tipo de grafo"
-          placeholder="Select an option"
-          className="w-full"
-          value={graphType}
-          onChange={(e) => {
-            handleGraphType(e.target.value);
-            console.log(e.target.value);
-          }}
-        >
-          {options.map((op) => (
-            <SelectItem key={op.key}>{op.label}</SelectItem>
-          ))}
-        </Select>
+    <section className="flex flex-col items-center justify-center gap-4 py-3 md:py-7">
+      <div className="mb-10">
+        <h1 className="text-5xl font-medium ">GraphSolver</h1>
       </div>
-      <div className="inline-block max-w-lg text-center justify-center">
-        <Form handleSubmit={onClickAddedGraph} />
+      <div className="w-full h-max flex flex-col sm:flex-row items-center justify-center">
+        <Form handleSubmit={onClickAddedGraph} handleGraphType={handleGraphType} options={options} />
       </div>
 
       <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
