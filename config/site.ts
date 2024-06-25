@@ -1,8 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + NextUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "Graph Solver",
+  description: "GraphSolver is an application designed to solve graph problems using efficient and well-known algorithms in the field of graph theory.",
   navItems: [
     {
       label: "Home",
