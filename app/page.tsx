@@ -9,7 +9,7 @@ import { Button, ButtonGroup } from "@nextui-org/button";
 import { DijkstraStrategyAlgorithm } from "@/core/DijkstraStrategyAlgorithm";
 import { KruskalStrategyAlgorithm } from "@/core/KruskalStrategyAlgorithm";
 import { useDisclosure } from "@nextui-org/modal";
-import { ModalSelectInitAndEnd } from "@/components/modalSelectInitAndEnd";
+import { ModalSelectInitAndEnd, StartAndEndNodes } from "@/components/modalSelectInitAndEnd";
 import { get } from "http";
 import TableDots from "@/components/tableDots";
 
@@ -71,21 +71,15 @@ export default function Home() {
     const { origen, destino, peso } = value;
     return `${origen}${dot.includes("digraph") ? "->" : "--"}${destino}[label=${peso}];`;
   };
-
-  const handleClickDjikstraButton = () => {
-    console.log("Djikstra");
-    console.log(getNodesFromDot(dot));
-    /**
-     * 
+  
+  const handleClickDjikstraButtonModal = (startAndEndNode: StartAndEndNodes) => {
     let resolver: Resolver = new Resolver();
-    let djikstraAlgorithm: DijkstraStrategyAlgorithm =
-    new DijkstraStrategyAlgorithm();
+    let djikstraAlgorithm: DijkstraStrategyAlgorithm = new DijkstraStrategyAlgorithm();
     resolver.setStrategy(djikstraAlgorithm);
-    let dotResolverByDijkstra = resolver.resolve(dot, "1", "6");
+    let dotResolverByDijkstra = resolver.resolve(dot, startAndEndNode.start, startAndEndNode.end);
     console.log(dotResolverByDijkstra);
     setDotResolver(dotResolverByDijkstra);
-    */
-  };
+  }
 
   const getNodesFromDot = (dot: string) => {
     let directed = dot.includes("->");
@@ -167,11 +161,8 @@ export default function Home() {
         ) : (
           <Button
             className="btn btn-primary"
-            disabled={true}
-            onClick={() => {
-              handleClickDjikstraButton();
-              onOpen();
-            }}
+            //disabled={true}
+            onClick={() => onOpen()}
           >
             Resolver por Dijkstra
           </Button>
@@ -182,6 +173,7 @@ export default function Home() {
         <GraphvizComponent dot={dotResolver}></GraphvizComponent>
       </div>
       <ModalSelectInitAndEnd
+        handleClickResolver={handleClickDjikstraButtonModal}
         nodes={getNodesFromDot(dot)}
         onOpenChange={onOpenChange}
         isOpen={isOpen}

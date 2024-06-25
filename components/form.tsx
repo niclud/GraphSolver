@@ -1,7 +1,7 @@
 "use client";
 //"use server";
 import { Input } from "@nextui-org/input";
-import { Button, ButtonGroup } from "@nextui-org/button";
+import { Button } from "@nextui-org/button";
 import React from "react";
 import { Select, SelectItem } from "@nextui-org/select";
 
@@ -61,7 +61,7 @@ export const Form = (props: { handleSubmit: any, options: any, handleGraphType: 
   };
 
   const getIsDisableButton = () => {
-    return !values.origen || !values.destino || !values.peso;
+    return !values.origen || !values.destino || !values.peso || values.peso < 0;
   };
 
   return (
@@ -70,12 +70,11 @@ export const Form = (props: { handleSubmit: any, options: any, handleGraphType: 
         <Select
           label="Tipo de grafo"
           placeholder="Select an option"
+          color="secondary"
           className="w-full"
           isRequired
-          // value={graphType}
           onChange={(e) => {
             props.handleGraphType(e.target.value);
-            console.log(e.target.value);
           }}
         >
           {props.options.map((op: any) => (
@@ -96,6 +95,7 @@ export const Form = (props: { handleSubmit: any, options: any, handleGraphType: 
             value={String(values[input.name])}
             onChange={handleChange}
             className="w-full"
+            min={0}
           />
         ))}
 

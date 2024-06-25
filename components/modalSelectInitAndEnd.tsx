@@ -4,22 +4,48 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure,
 } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import {
   Autocomplete,
-  AutocompleteSection,
   AutocompleteItem,
 } from "@nextui-org/autocomplete";
+import { useState } from "react";
+
+export interface StartAndEndNodes {
+  start: string;
+  end: string;
+}
+
+const InitStartAndEndNodes = {
+  start: "",
+  end: "",
+};
 
 export const ModalSelectInitAndEnd = (props: {
   isOpen: any;
   onOpenChange: any;
   nodes: any[];
+  handleClickResolver: any;
 }) => {
-  //const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [startAndEndNodes, setStartAndEndNodes] =
+    useState<StartAndEndNodes>(InitStartAndEndNodes);
+  const handleClick = () => {
+    props.handleClickResolver(startAndEndNodes);
+    setStartAndEndNodes(InitStartAndEndNodes);
+  };
 
+  const handleChangeStartNode = (value: any) => {
+    setStartAndEndNodes({ ...startAndEndNodes, start: value });
+  };
+
+  const handleChangeEndNode = (value: any) => {
+    setStartAndEndNodes({ ...startAndEndNodes, end: value });
+  };
+
+  const getIsDisableButton = () => {
+    return startAndEndNodes.start == "" || startAndEndNodes.end == "";
+  };
   return (
     <>
       <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange} size="2xl">
@@ -31,16 +57,24 @@ export const ModalSelectInitAndEnd = (props: {
               </ModalHeader>
               <ModalBody>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                  <Autocomplete label="Selecciona un nodo de inicio" className="max-w-xs">
+                  <Autocomplete
+                    label="Selecciona un nodo de inicio"
+                    className="max-w-xs"
+                    onSelectionChange={handleChangeStartNode}
+                  >
                     {props.nodes.map((node, index) => (
-                      <AutocompleteItem key={index} value={node}>
+                      <AutocompleteItem key={node} value={node}>
                         {node}
                       </AutocompleteItem>
                     ))}
                   </Autocomplete>
-                  <Autocomplete label="Selecciona un nodo de fin" className="max-w-xs">
+                  <Autocomplete
+                    label="Selecciona un nodo de fin"
+                    className="max-w-xs"
+                    onSelectionChange={handleChangeEndNode}
+                  >
                     {props.nodes.map((node, index) => (
-                      <AutocompleteItem key={index} value={node}>
+                      <AutocompleteItem key={node} value={node}>
                         {node}
                       </AutocompleteItem>
                     ))}
@@ -48,11 +82,23 @@ export const ModalSelectInitAndEnd = (props: {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="light" onPress={() => {
+                  onClose()
+                  setStartAndEndNodes(InitStartAndEndNodes)
+                  }}>
                   Close
                 </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
+                <Button
+                  color="primary"
+                  style={{background: getIsDisableButton() ? 'gray' : ''}}
+                  disabled={getIsDisableButton()}
+                  onPress={() => {
+                    if(getIsDisableButton()) return;
+                    onClose();
+                    handleClick();
+                  }}
+                >
+                  Resolver
                 </Button>
               </ModalFooter>
             </>

@@ -5,18 +5,11 @@ import * as graphlib from "@dagrejs/graphlib";
 export class DijkstraStrategyAlgorithm extends AbstractStrategyAlgorithm implements IStrategy {
     execute(graphs: string, nodeStart: string | number, nodeEnd: string | number): string {
         let g = this.dotToGraph(graphs);
-        console.log('Grafo:', g);
         
         const weightFn = (e: graphlib.Edge) => g.edge(e);
         let dijkstra = graphlib.alg.dijkstra(g, String(nodeStart), weightFn);
-        console.log('Árbol de Caminos Mínimos (Dijkstra):', dijkstra);
 
         let path = this.getPath(dijkstra, String(nodeStart), String(nodeEnd));
-        console.log('Camino:', path);
-        
-
-        console.log('Árbol de Caminos Mínimos (Dijkstra):', dijkstra);
-        console.log(JSON.stringify(dijkstra, null, 2));
 
         return this.djikstraResultToDot(path);
     }
@@ -29,9 +22,6 @@ export class DijkstraStrategyAlgorithm extends AbstractStrategyAlgorithm impleme
             console.log('No hay camino');
             return []; // No hay camino
         }
-
-        console.log(currentNode)
-        console.log(dijkstra[currentNode])
 
         while (currentNode !== nodeStart) {
             if (!dijkstra[currentNode]?.predecessor) {

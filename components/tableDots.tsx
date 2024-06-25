@@ -18,7 +18,6 @@ export default function TableDots(props: {
     let variable = props.dots.match(/{([^}]*)}/);
     if (!variable) return;
 
-    console.log(props.dots);
     variable = variable[1];
     variable = variable.split(";");
     variable.shift();
