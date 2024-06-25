@@ -8,6 +8,9 @@ import { PrimStrategyAlgorithm } from "@/core/PrimStrategyAlgorithm";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { DijkstraStrategyAlgorithm } from "@/core/DijkstraStrategyAlgorithm";
 import { KruskalStrategyAlgorithm } from "@/core/KruskalStrategyAlgorithm";
+import { useDisclosure } from "@nextui-org/modal";
+import { ModalSelectInitAndEnd } from "@/components/modalSelectInitAndEnd";
+import { get } from "http";
 
 export type SelectOption = {
   label: string;
@@ -18,12 +21,15 @@ const options: SelectOption[] = [
   { label: "Grafo sin dirección", key: "graph" },
   { label: "Grafo dirigido", key: "digraph" },
 ];
-
+const graphs = `graph{rankdir=LR;}`;
 export default function Home() {
-  const [dot, setDot] = React.useState<string>("graph{rankdir=LR;}");
+  //const [dot, setDot] = React.useState<string>("graph{rankdir=LR;}");
+  const [dot, setDot] = React.useState<string>(graphs);
   const [dotResolver, setDotResolver] =
     React.useState<string>("graph{rankdir=LR;}");
   const [graphType, setGraphType] = React.useState<string>("graph");
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const onClickAddedGraph = useCallback(
     (values: any) => {
@@ -62,13 +68,56 @@ export default function Home() {
     return `${origen}${dot.includes("digraph") ? "->" : "--"}${destino}[label=${peso}];`;
   };
 
+  const handleClickDjikstraButton = () => {
+    console.log("Djikstra");
+    console.log(getNodesFromDot(dot));
+    /**
+     * 
+    let resolver: Resolver = new Resolver();
+    let djikstraAlgorithm: DijkstraStrategyAlgorithm =
+    new DijkstraStrategyAlgorithm();
+    resolver.setStrategy(djikstraAlgorithm);
+    let dotResolverByDijkstra = resolver.resolve(dot, "1", "6");
+    console.log(dotResolverByDijkstra);
+    setDotResolver(dotResolverByDijkstra);
+    */
+  };
+
+  const getNodesFromDot = (dot: string) => {
+    let directed = dot.includes("->");
+    let lines = dot.split(";");
+    let nodes: any[] = [];
+    lines.forEach((line, index) => {
+      let parts = line.split("--");
+      if (directed) {
+        parts = line.split("->");
+      }
+
+      if (parts.length == 2) {
+        let from = parts[0].trim();
+        let to = parts[1].split("[")[0].trim();
+        if (!nodes.includes(from)) {
+          nodes.push(from);
+        }
+        if (!nodes.includes(to)) {
+          nodes.push(to);
+        }
+      }
+    });
+    return nodes;
+  };
+
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-3 md:py-7">
       <div className="mb-10">
         <h1 className="text-5xl font-medium ">GraphSolver</h1>
       </div>
       <div className="w-full h-max flex flex-col sm:flex-row items-center justify-center">
-        <Form handleSubmit={onClickAddedGraph} handleGraphType={handleGraphType} options={options} />
+        <Form
+          handleSubmit={onClickAddedGraph}
+          handleGraphType={handleGraphType}
+          options={options}
+        />
       </div>
 
       <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
@@ -95,7 +144,8 @@ export default function Home() {
               className="btn btn-primary"
               onClick={() => {
                 let resolver: Resolver = new Resolver();
-                let kruskalStrategyAlgorithm: KruskalStrategyAlgorithm = new KruskalStrategyAlgorithm();
+                let kruskalStrategyAlgorithm: KruskalStrategyAlgorithm =
+                  new KruskalStrategyAlgorithm();
                 resolver.setStrategy(kruskalStrategyAlgorithm);
                 let dotResolverByPrim = resolver.resolve(dot);
                 setDotResolver(dotResolverByPrim);
@@ -109,12 +159,8 @@ export default function Home() {
             className="btn btn-primary"
             disabled={true}
             onClick={() => {
-              let resolver: Resolver = new Resolver();
-              let djikstraAlgorithm: DijkstraStrategyAlgorithm =
-                new DijkstraStrategyAlgorithm();
-              resolver.setStrategy(djikstraAlgorithm);
-              let dotResolverByDijkstra = resolver.resolve(dot, 1);
-              setDotResolver(dotResolverByDijkstra);
+              handleClickDjikstraButton();
+              onOpen();
             }}
           >
             Resolver por Dijkstra
@@ -124,6 +170,11 @@ export default function Home() {
       <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
         <GraphvizComponent dot={dotResolver}></GraphvizComponent>
       </div>
+      <ModalSelectInitAndEnd
+        nodes={getNodesFromDot(dot)}
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+      ></ModalSelectInitAndEnd>
     </section>
   );
 }
