@@ -177,7 +177,7 @@ export default function Home() {
           </Button>
         )}
       </div>
-      <TableDots dots={dot} setDot={deleteDot}></TableDots>
+      <TableDots dots={dot} deleteDot={deleteDot}></TableDots>
       <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
         <GraphvizComponent dot={dotResolver}></GraphvizComponent>
       </div>

@@ -12,7 +12,7 @@ import { DeleteIcon } from "./icons";
 
 export default function TableDots(props: {
   dots: any;
-  setDot: (params: any) => void;
+  deleteDot: (params: any) => void;
 }) {
   const formateDot = (initialize: boolean = false) => {
     let variable = props.dots.match(/{([^}]*)}/);
@@ -69,7 +69,7 @@ export default function TableDots(props: {
   const eliminarDot = (dot: string) => {
     console.log("Dot to delete:", dot);
     dot += ";";
-    props.setDot(dot);
+    props.deleteDot(dot);
   };
 
   const columns = [
@@ -97,7 +97,7 @@ export default function TableDots(props: {
 
   return (
     <Table
-      aria-label="Example table with custom cells, pagination and sorting"
+      aria-label="Table Dots"
       isHeaderSticky
       bottomContentPlacement="outside"
     >
