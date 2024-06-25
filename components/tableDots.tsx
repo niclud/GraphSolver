@@ -1,4 +1,4 @@
-import React, { Key, useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
     Table,
     TableHeader,
@@ -7,59 +7,65 @@ import {
     TableBody,
     TableRow
 } from "@nextui-org/table";
+import { Tooltip } from "@nextui-org/tooltip";
+import { DeleteIcon } from "./icons";
 
-export default function TableDots(props: { dots: any }) {
-    const [dotsTable, setDotsTable] = React.useState(props.dots)
+export default function TableDots(props: { dots: any, setDot: (params: any) => void }) {
+    const [dotsTable, setDotsTable] = useState([]);
 
-    // const renderCell = React.useCallback((dot: any, columnKey: React.Key) => {
-    //     const cellValue = dot[columnKey];
+    const renderCell = useCallback((dot: any, columnKey: any) => {
+        const cellValue = dot[columnKey];
 
-    //     // switch (columnKey) {
-    //     //     return (
-    //     //       <div className="relative flex justify-end items-center gap-2">
-    //     //         <Dropdown>
-    //     //           <DropdownTrigger>
-    //     //             <Button isIconOnly size="sm" variant="light">
-    //     //               <VerticalDotsIcon className="text-default-300" />
-    //     //             </Button>
-    //     //           </DropdownTrigger>
-    //     //           <DropdownMenu>
-    //     //             <DropdownItem>View</DropdownItem>
-    //     //             <DropdownItem>Edit</DropdownItem>
-    //     //             <DropdownItem>Delete</DropdownItem>
-    //     //           </DropdownMenu>
-    //     //         </Dropdown>
-    //     //       </div>
-    //     //     );
-    //     //   default:
-    //     //     return cellValue;
-    //     // }
-    //     return cellValue
-    // }, []);
-
+        switch (columnKey) {
+            case "acciones":
+                return (
+                    <div className="w-max">
+                        <Tooltip content="Eliminar Nodo" color="danger">
+                            <span className="cursor-pointer text-danger">
+                                <DeleteIcon onClick={() => eliminarDot(dot.dot)} />
+                            </span>
+                        </Tooltip>
+                    </div>
+                );
+            default:
+                return cellValue;
+        }
+    }, []);
 
     const formateDot = () => {
         let variable = props.dots.match(/{([^}]*)}/);
-        console.log(props.dots)
-        variable = variable[1]
-        variable = variable.split(';')
-        variable.shift()
-        variable.pop()
-        const array = variable.map((e: any) => {
+        if (!variable) return;
 
-            let match = e.match(/\[label=(\d+)\]/);
+        console.log(props.dots);
+        variable = variable[1];
+        variable = variable.split(';');
+        variable.shift();
+        variable.pop();
+        const array = variable.map((e: any, index: any) => {
+            let peso = e.match(/\[label=(\d+)\]/);
+            let origen = e.match(/^[^-]*/)[0];
+            let destino = "";
+            if (e.includes("->")) {
+                destino = e.match(/->([^[]*)/)[1];
+            } else {
+                destino = e.match(/--([^[]*)/)[1];
+            }
             return ({
-                id: e[0],
-                origen: e[0],
-                destino: e[3],
-                peso: match[1]
+                id: index,
+                origen: origen.trim(),
+                destino: destino.trim(),
+                peso: peso ? peso[1] : "",
+                dot: e
+            });
+        });
+        setDotsTable(array);
+    };
 
-            })
-        })
-        console.log(variable)
-        console.log(array)
+    const eliminarDot = (dot: any) => {
+        console.log("Dot to delete:", dot);
+        props.setDot(dot);
+    };
 
-    }
 
     const columns = [
         {
@@ -74,12 +80,16 @@ export default function TableDots(props: { dots: any }) {
             key: "peso",
             label: "PESO",
         },
+        {
+            key: "acciones",
+            label: "ACCIONES",
+        },
     ];
 
+    useEffect(() => {
+        formateDot();
+    }, [props.dots]);
 
-    React.useEffect(() => {
-        formateDot()
-    }, [props.dots])
     return (
         <Table
             aria-label="Example table with custom cells, pagination and sorting"
@@ -101,13 +111,7 @@ export default function TableDots(props: { dots: any }) {
                         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
                     </TableRow>
                 )}
-                {/* <TableRow>
-                    <TableCell>{props.dots}</TableCell>
-                    <TableCell>{props.dots}</TableCell>
-                    <TableCell>{props.dots}</TableCell>
-
-                </TableRow> */}
             </TableBody>
         </Table>
-    )
+    );
 }

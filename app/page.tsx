@@ -111,6 +111,12 @@ export default function Home() {
     return nodes;
   };
 
+  const deleteDot = (dotDelet:string) => {
+    let newDot = dot.replace(dotDelet, "");
+    console.log(newDot)
+    setDot(newDot)
+  }
+
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-3 md:py-7">
       <div className="mb-10">
@@ -171,7 +177,7 @@ export default function Home() {
           </Button>
         )}
       </div>
-      <TableDots dots={dot}></TableDots>
+      <TableDots dots={dot} setDot={deleteDot}></TableDots>
       <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
         <GraphvizComponent dot={dotResolver}></GraphvizComponent>
       </div>
