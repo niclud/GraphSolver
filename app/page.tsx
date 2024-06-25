@@ -11,6 +11,7 @@ import { KruskalStrategyAlgorithm } from "@/core/KruskalStrategyAlgorithm";
 import { useDisclosure } from "@nextui-org/modal";
 import { ModalSelectInitAndEnd } from "@/components/modalSelectInitAndEnd";
 import { get } from "http";
+import TableDots from "@/components/tableDots";
 
 export type SelectOption = {
   label: string;
@@ -35,8 +36,11 @@ export default function Home() {
     (values: any) => {
       let newDot = `${dot.replace("}", "")}${contructNewDot(values, dot)}}`;
       setDot(newDot);
+      console.log(dot);
+      console.log(getNodesFromDot(dot));
     },
     [dot]
+
   );
 
   const handleGraphType = (value: string) => {
@@ -167,6 +171,7 @@ export default function Home() {
           </Button>
         )}
       </div>
+      <TableDots dots={dot}></TableDots>
       <div className="w-full h-full border items-center justify-center grid place-content-center rounded-lg bg-white object-contain">
         <GraphvizComponent dot={dotResolver}></GraphvizComponent>
       </div>
