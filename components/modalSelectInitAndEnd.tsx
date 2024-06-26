@@ -48,7 +48,7 @@ export const ModalSelectInitAndEnd = (props: {
   };
   return (
     <>
-      <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange} size="2xl">
+      <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange} size="2xl" placement="center">
         <ModalContent>
           {(onClose) => (
             <>
