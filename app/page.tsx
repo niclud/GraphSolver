@@ -131,19 +131,19 @@ export default function Home() {
       <div className="grid grid-flow-col max-w-lg text-center justify-center gap-5">
         {graphType === "graph" ? (
           <>
-            <Button className="btn btn-primary" onClick={() => resolveGraph(PrimStrategyAlgorithm)}>
+            <Button className="btn btn-primary" color="primary" onClick={() => resolveGraph(PrimStrategyAlgorithm)}>
               Resolver por Prim
             </Button>
-            <Button className="btn btn-primary" onClick={() => resolveGraph(KruskalStrategyAlgorithm)}>
+            <Button className="btn btn-primary" color='secondary' onClick={() => resolveGraph(KruskalStrategyAlgorithm)}>
               Resolver por Kruskal
             </Button>
           </>
         ) : (
           <>
-            <Button className="btn btn-primary" onPress={() => setAlgorithmSelected('dijkstra')} onClick={onOpen}>
+            <Button className="btn btn-primary" color='success' onPress={() => setAlgorithmSelected('dijkstra')} onClick={onOpen}>
               Resolver por Dijkstra
             </Button>
-            <Button className="btn btn-primary" onPress={() => setAlgorithmSelected('maxFlow')} onClick={onOpen}>
+            <Button className="btn btn-primary" color='warning' onPress={() => setAlgorithmSelected('maxFlow')} onClick={onOpen}>
               Resolver por Flujo Máximo
             </Button>
           </>

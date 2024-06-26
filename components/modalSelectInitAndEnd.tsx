@@ -53,7 +53,7 @@ export const ModalSelectInitAndEnd = (props: {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Seleccione un nodo de incio y fin
+                Seleccione un nodo de inicio y fin
               </ModalHeader>
               <ModalBody>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">

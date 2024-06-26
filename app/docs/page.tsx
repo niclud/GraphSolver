@@ -58,6 +58,27 @@ export default function DocsPage() {
         "Sistemas de telefonía para minimizar el costo de infraestructura.",
       ],
     },
+    {
+      nombre: "Algoritmo de Flujo Máximo (Ford-Fulkerson)",
+      descripcion:
+        "El algoritmo de Ford-Fulkerson se utiliza para encontrar el flujo máximo posible desde una fuente a un sumidero en una red de flujo, que es un grafo dirigido donde cada arista tiene una capacidad.",
+      detalles: [
+        "Inicializa el flujo en todas las aristas a 0.",
+        "Busca un camino aumentante desde la fuente al sumidero usando un algoritmo de búsqueda (como DFS o BFS), en el grafo residual.",
+        "Determina la capacidad residual mínima a lo largo de este camino aumentante.",
+        "Aumenta el flujo a lo largo del camino en la cantidad determinada en el paso anterior.",
+        "Actualiza el grafo residual.",
+        "Repite los pasos 2-5 hasta que no haya más caminos aumentantes.",
+
+      ],
+      imagen:
+        "https://www.gestiondeoperaciones.net/wp-content/uploads/2014/12/ruta-flujo-maximo.gif",
+      ejemplos: [
+        "Redes de transporte: Optimización del flujo de tráfico.",
+        "Sistemas de telecomunicaciones: Maximización del flujo de datos a través de una red.",
+        "Gestión de recursos hídricos: Maximización del flujo de agua a través de una red de tuberías.",
+      ],
+    },
   ];
 
   return (
