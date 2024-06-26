@@ -14,7 +14,7 @@ import {
   }) => {
     return (
       <>
-        <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange} size="md" placement="center">
+        <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange} size="md" placement="top-center">
           <ModalContent>
             {(onClose) => (
               <>
