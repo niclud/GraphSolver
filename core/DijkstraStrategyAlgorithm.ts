@@ -20,13 +20,13 @@ export class DijkstraStrategyAlgorithm extends AbstractStrategyAlgorithm impleme
 
         if (dijkstra[currentNode]?.distance === null) {
             console.log('No hay camino');
-            return []; // No hay camino
+            return [];
         }
 
         while (currentNode !== nodeStart) {
             if (!dijkstra[currentNode]?.predecessor) {
                 console.log('No hay camino');
-                return []; // No hay camino
+                return [];
             }
             path.unshift({
                 nodo: currentNode, 

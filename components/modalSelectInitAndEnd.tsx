@@ -86,7 +86,7 @@ export const ModalSelectInitAndEnd = (props: {
                   onClose()
                   setStartAndEndNodes(InitStartAndEndNodes)
                   }}>
-                  Close
+                  Cerrar
                 </Button>
                 <Button
                   color="primary"

@@ -37,7 +37,8 @@ let inputs: InputType[] = [
     name: "peso",
   },
 ];
-export const Form = (props: { handleSubmit: any, options: any, handleGraphType: any }) => {
+
+export const Form = (props: { handleSubmit: any; options: any; handleGraphType: any }) => {
   const getNameAndValueInit = () => {
     return {
       origen: "",
@@ -45,11 +46,28 @@ export const Form = (props: { handleSubmit: any, options: any, handleGraphType: 
       peso: 0,
     };
   };
+
   const [values, setValues] = React.useState(getNameAndValueInit());
+  const [isInvalid, setIsInvalid] = React.useState({ origen: false, destino: false });
 
   const handleChange = (evt: any) => {
-    const { target } = evt;
-    const { name, value } = target;
+    const { name, value } = evt.target;
+
+    // Validación para caracteres especiales
+    const regex = /^[a-zA-Z0-9]*$/;
+    if (name === "origen" || name === "destino") {
+      if (!regex.test(value)) {
+        setIsInvalid((prevInvalid) => ({
+          ...prevInvalid,
+          [name]: true,
+        }));
+      } else {
+        setIsInvalid((prevInvalid) => ({
+          ...prevInvalid,
+          [name]: false,
+        }));
+      }
+    }
 
     const newValues = {
       ...values,
@@ -61,7 +79,14 @@ export const Form = (props: { handleSubmit: any, options: any, handleGraphType: 
   };
 
   const getIsDisableButton = () => {
-    return !values.origen || !values.destino || !values.peso || values.peso < 0;
+    return (
+      !values.origen ||
+      !values.destino ||
+      !values.peso ||
+      values.peso < 0 ||
+      isInvalid.origen ||
+      isInvalid.destino
+    );
   };
 
   return (
@@ -85,7 +110,7 @@ export const Form = (props: { handleSubmit: any, options: any, handleGraphType: 
           <Input
             key={input.name}
             size="md"
-            color="secondary"
+            color={isInvalid[input.name as keyof typeof isInvalid] ? "danger" : "secondary"}
             variant="bordered"
             isRequired
             label={input.label}
@@ -94,11 +119,12 @@ export const Form = (props: { handleSubmit: any, options: any, handleGraphType: 
             name={input.name}
             value={String(values[input.name])}
             onChange={handleChange}
-            className="w-full"
+            className="w-full min-w-[200px]"
             min={0}
+            isInvalid={isInvalid[input.name as keyof typeof isInvalid]}
+            errorMessage={isInvalid[input.name as keyof typeof isInvalid] ? "Solo se permiten letras y números." : ""}
           />
         ))}
-
       </div>
 
       <Button
