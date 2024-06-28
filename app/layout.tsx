@@ -3,6 +3,7 @@ import { Metadata, Viewport } from "next";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/react"
 
 import { Providers } from "./providers";
 
@@ -48,6 +49,7 @@ export default function RootLayout({
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
               <SpeedInsights />
+              <Analytics />
             </main>
             <footer className="w-full flex flex-wrap h-max items-center justify-center py-3 gap-2">
             <p className="text-default-600">Powered by</p>
